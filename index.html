@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lud | Desenvolvedora & Criativa Hitech</title>
+
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Syncopate:wght@700&display=swap" rel="stylesheet">
+    
+    <!-- Script para Animação de Digitação -->
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+
+    <!-- Estilos Customizados e Configuração do Tailwind -->
+    <style>
+        /* Definindo fontes e cores personalizadas para o Tailwind */
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Poppins', 'sans-serif'],
+                        'display': ['Syncopate', 'sans-serif'],
+                    },
+                    colors: {
+                        'brand-pink': '#ff00c1',
+                        'brand-cyan': '#00f2ea',
+                        'brand-dark': '#0a0a1a',
+                        'brand-bg': '#101020',
+                        'brand-light': '#f0f0f0',
+                    },
+                    boxShadow: {
+                        'glow-pink': '0 0 5px #ff00c1, 0 0 10px #ff00c1, 0 0 20px #ff00c1',
+                        'glow-cyan': '0 0 5px #00f2ea, 0 0 10px #00f2ea, 0 0 20px #00f2ea',
+                    },
+                    animation: {
+                        'fade-in-up': 'fade-in-up 0.8s ease-out forwards',
+                    },
+                    keyframes: {
+                        'fade-in-up': {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        };
+
+        /* Fundo gradiente para o body */
+        body {
+            background-color: #0a0a1a;
+            background-image: radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.05) 1px, transparent 0);
+            background-size: 20px 20px;
+        }
+
+        /* Efeito de vidro fosco para o header */
+        .glassmorphism {
+            background: rgba(16, 16, 32, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0, 242, 234, 0.1);
+        }
+
+        /* Estilo para a barra de rolagem */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0a0a1a; }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, #ff00c1, #00f2ea);
+            border-radius: 10px;
+        }
+        
+        /* Efeito de neon no texto */
+        .text-glow {
+            text-shadow: 0 0 5px #ff00c1, 0 0 10px #ff00c1;
+        }
+
+        /* Canvas para partículas */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body class="bg-brand-dark text-brand-light font-sans antialiased">
+
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Header -->
+    <header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 glassmorphism">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-display uppercase tracking-widest font-bold text-white text-glow">LUD</a>
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="#about" class="hover:text-brand-pink transition-colors duration-300">Sobre</a>
+                <a href="#skills" class="hover:text-brand-pink transition-colors duration-300">Habilidades</a>
+                <a href="#projects" class="hover:text-brand-pink transition-colors duration-300">Projetos</a>
+            </nav>
+            <a href="#contact" class="hidden md:inline-block border-2 border-brand-cyan text-brand-cyan font-bold py-2 px-6 rounded-lg hover:bg-brand-cyan hover:text-brand-dark hover:shadow-glow-cyan transition-all duration-300 transform hover:scale-105">
+                Contato
+            </a>
+            <button id="mobile-menu-button" class="md:hidden text-white text-2xl z-50">
+                <svg id="menu-icon-open" xmlns="http://www.w.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                <svg id="menu-icon-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+        </div>
+        <!-- Menu Mobile -->
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full glassmorphism">
+            <nav class="flex flex-col items-center space-y-6 py-8">
+                <a href="#about" class="text-lg hover:text-brand-pink transition-colors duration-300">Sobre</a>
+                <a href="#skills" class="text-lg hover:text-brand-pink transition-colors duration-300">Habilidades</a>
+                <a href="#projects" class="text-lg hover:text-brand-pink transition-colors duration-300">Projetos</a>
+                <a href="#contact" class="border-2 border-brand-cyan text-brand-cyan font-bold py-2 px-6 rounded-lg hover:bg-brand-cyan hover:text-brand-dark transition-all duration-300">
+                    Contato
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 relative z-10">
+        <!-- Seção Hero -->
+        <section id="home" class="min-h-screen flex flex-col justify-center items-center text-center pt-20">
+            <div class="relative w-40 h-40 md:w-48 md:h-48 mb-6">
+                <div class="absolute inset-0 bg-brand-pink rounded-full blur-2xl animate-pulse opacity-70"></div>
+                <div class="absolute -inset-1 border-2 border-brand-cyan rounded-full animate-spin" style="animation-duration: 5s;"></div>
+                <img src="https://placehold.co/200x200/0a0a1a/FFFFFF?text=LUD" alt="Foto de perfil da Lud" class="relative w-full h-full rounded-full object-cover border-4 border-brand-bg">
+            </div>
+            <h1 class="text-5xl md:text-7xl font-display uppercase tracking-widest font-bold text-white text-glow mb-2">LUDMILA</h1>
+            <h2 class="text-xl md:text-2xl text-brand-light mb-8">
+                <span id="typed-text" class="text-brand-cyan"></span>
+            </h2>
+            <div class="flex space-x-6">
+                <a href="#" class="text-brand-light hover:text-brand-pink hover:scale-110 transition-all duration-300"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a>
+                <a href="#" class="text-brand-light hover:text-brand-pink hover:scale-110 transition-all duration-300"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a>
+                 <a href="#" class="text-brand-light hover:text-brand-pink hover:scale-110 transition-all duration-300"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
+            </div>
+        </section>
+
+        <!-- Seção Sobre Mim -->
+        <section id="about" class="py-20 md:py-32 scroll-mt-20">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-display uppercase tracking-widest text-glow">Sobre Mim</h2>
+                <div class="w-20 h-1 bg-brand-pink mx-auto mt-2 rounded-full"></div>
+            </div>
+            <div class="grid md:grid-cols-5 gap-10 items-center">
+                <div class="md:col-span-2">
+                     <div class="relative p-2 border border-brand-cyan/20 rounded-lg">
+                        <img src="https://placehold.co/400x500/0a0a1a/ff00c1?text=Lud" alt="Retrato da Lud" class="relative w-full rounded-lg shadow-2xl">
+                    </div>
+                </div>
+                <div class="md:col-span-3 text-lg text-gray-300 space-y-4">
+                    <p>Olá! Sou a Lud, uma desenvolvedora apaixonada por criar experiências digitais que são ao mesmo tempo funcionais, bonitas e intuitivas. Com um forte foco em tecnologias front-end e design de interface, busco transformar ideias complexas em soluções elegantes e eficientes.</p>
+                    <p>Minha jornada na tecnologia começou com a curiosidade de entender como as coisas funcionavam na web. Hoje, essa curiosidade se transformou em uma carreira onde posso combinar lógica de programação com criatividade visual para construir produtos que impactam positivamente a vida das pessoas.</p>
+                    <p>Fora do mundo do código, adoro explorar arte digital, fotografia e me manter atualizada sobre as últimas tendências em design e tecnologia. Acredito que a inspiração pode vir de todos os lugares!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção Habilidades -->
+        <section id="skills" class="py-20 md:py-32 scroll-mt-20">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-display uppercase tracking-widest text-glow">Habilidades</h2>
+                <div class="w-20 h-1 bg-brand-pink mx-auto mt-2 rounded-full"></div>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8">
+                <!-- Skill Card -->
+                <div class="group relative flex flex-col items-center p-6 bg-brand-bg rounded-xl border border-brand-pink/20 hover:border-brand-pink transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="absolute -inset-px bg-gradient-to-r from-brand-pink to-brand-cyan rounded-xl blur opacity-0 group-hover:opacity-70 transition-opacity duration-300"></div>
+                    <svg class="relative w-16 h-16 mb-4 text-brand-cyan" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 20l4-16m4 12-8-8-8 8m16-4-4 4"/></svg>
+                    <span class="relative font-semibold">HTML5</span>
+                </div>
+                 <!-- Skill Card -->
+                <div class="group relative flex flex-col items-center p-6 bg-brand-bg rounded-xl border border-brand-pink/20 hover:border-brand-pink transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="absolute -inset-px bg-gradient-to-r from-brand-pink to-brand-cyan rounded-xl blur opacity-0 group-hover:opacity-70 transition-opacity duration-300"></div>
+                    <svg class="relative w-16 h-16 mb-4 text-brand-cyan" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 10a2 2 0 1 0 4 0 2 2 0 1 0-4 0Zm12 0a2 2 0 1 0 4 0 2 2 0 1 0-4 0Zm-9 9a2 2 0 1 0 4 0 2 2 0 1 0-4 0ZM3 3l18 18M10 3v5a2 2 0 0 1-2 2H3m7-7-5 5m14-5v5a2 2 0 0 1-2 2h-5m7-7-5 5"/></svg>
+                    <span class="relative font-semibold">CSS3 & Tailwind</span>
+                </div>
+                 <!-- Skill Card -->
+                <div class="group relative flex flex-col items-center p-6 bg-brand-bg rounded-xl border border-brand-pink/20 hover:border-brand-pink transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="absolute -inset-px bg-gradient-to-r from-brand-pink to-brand-cyan rounded-xl blur opacity-0 group-hover:opacity-70 transition-opacity duration-300"></div>
+                    <svg class="relative w-16 h-16 mb-4 text-brand-cyan" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 21V3m4 18V3M21 17a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v4Zm-8-9a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V8Z"/></svg>
+                    <span class="relative font-semibold">JavaScript</span>
+                </div>
+                 <!-- Skill Card -->
+                <div class="group relative flex flex-col items-center p-6 bg-brand-bg rounded-xl border border-brand-pink/20 hover:border-brand-pink transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="absolute -inset-px bg-gradient-to-r from-brand-pink to-brand-cyan rounded-xl blur opacity-0 group-hover:opacity-70 transition-opacity duration-300"></div>
+                    <svg class="relative w-16 h-16 mb-4 text-brand-cyan" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 15c6-6 14-6 20 0m-16 4c4.5-4.5 9.5-4.5 14 0M12 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"/></svg>
+                    <span class="relative font-semibold">React.js</span>
+                </div>
+                 <!-- Skill Card -->
+                <div class="group relative flex flex-col items-center p-6 bg-brand-bg rounded-xl border border-brand-pink/20 hover:border-brand-pink transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="absolute -inset-px bg-gradient-to-r from-brand-pink to-brand-cyan rounded-xl blur opacity-0 group-hover:opacity-70 transition-opacity duration-300"></div>
+                    <svg class="relative w-16 h-16 mb-4 text-brand-cyan" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m20.57 14.85-2.09-2.09a2.99 2.99 0 0 0-4.24 0l-5.3 5.3a2.99 2.99 0 0 0 0 4.24l2.09 2.09a2.99 2.99 0 0 0 4.24 0l5.3-5.3a2.99 2.99 0 0 0 0-4.24Z"/><path d="m3.43 9.15 2.09 2.09a2.99 2.99 0 0 0 4.24 0l5.3-5.3a2.99 2.99 0 0 0 0-4.24l-2.09-2.09a2.99 2.99 0 0 0-4.24 0l-5.3 5.3a2.99 2.99 0 0 0 0 4.24Z"/></svg>
+                    <span class="relative font-semibold">Figma</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção Projetos -->
+        <section id="projects" class="py-20 md:py-32 scroll-mt-20">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-display uppercase tracking-widest text-glow">Projetos</h2>
+                <div class="w-20 h-1 bg-brand-pink mx-auto mt-2 rounded-full"></div>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Projeto Card -->
+                <div class="group rounded-xl overflow-hidden bg-brand-bg border border-brand-cyan/20 hover:shadow-2xl hover:shadow-brand-pink/20 transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="overflow-hidden"><img src="https://placehold.co/600x400/101020/ff00c1?text=Projeto+1" alt="Thumbnail do Projeto 1" class="w-full h-auto group-hover:scale-110 transition-transform duration-500"></div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-brand-cyan">Nome do Projeto 1</h3>
+                        <p class="text-gray-400 mb-4">Uma breve descrição do projeto, suas tecnologias e o que foi resolvido com ele.</p>
+                        <div class="flex space-x-4"><a href="#" class="font-semibold text-brand-pink hover:underline">Ver Demo</a><a href="#" class="font-semibold text-brand-pink hover:underline">Ver Código</a></div>
+                    </div>
+                </div>
+                 <!-- Projeto Card -->
+                <div class="group rounded-xl overflow-hidden bg-brand-bg border border-brand-cyan/20 hover:shadow-2xl hover:shadow-brand-pink/20 transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="overflow-hidden"><img src="https://placehold.co/600x400/101020/00f2ea?text=Projeto+2" alt="Thumbnail do Projeto 2" class="w-full h-auto group-hover:scale-110 transition-transform duration-500"></div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-brand-cyan">Nome do Projeto 2</h3>
+                        <p class="text-gray-400 mb-4">Uma breve descrição do projeto, suas tecnologias e o que foi resolvido com ele.</p>
+                        <div class="flex space-x-4"><a href="#" class="font-semibold text-brand-pink hover:underline">Ver Demo</a><a href="#" class="font-semibold text-brand-pink hover:underline">Ver Código</a></div>
+                    </div>
+                </div>
+                 <!-- Projeto Card -->
+                <div class="group rounded-xl overflow-hidden bg-brand-bg border border-brand-cyan/20 hover:shadow-2xl hover:shadow-brand-pink/20 transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="overflow-hidden"><img src="https://placehold.co/600x400/101020/f0f0f0?text=Projeto+3" alt="Thumbnail do Projeto 3" class="w-full h-auto group-hover:scale-110 transition-transform duration-500"></div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2 text-brand-cyan">Nome do Projeto 3</h3>
+                        <p class="text-gray-400 mb-4">Uma breve descrição do projeto, suas tecnologias e o que foi resolvido com ele.</p>
+                        <div class="flex space-x-4"><a href="#" class="font-semibold text-brand-pink hover:underline">Ver Demo</a><a href="#" class="font-semibold text-brand-pink hover:underline">Ver Código</a></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção Contato -->
+        <section id="contact" class="py-20 md:py-32 scroll-mt-20">
+            <div class="text-center max-w-2xl mx-auto">
+                <h2 class="text-4xl font-display uppercase tracking-widest text-glow">Vamos Conversar?</h2>
+                <div class="w-20 h-1 bg-brand-pink mx-auto mt-2 rounded-full"></div>
+                <p class="mt-6 text-lg text-gray-300">Estou sempre aberta a novas oportunidades, colaborações e desafios. Se você tem um projeto em mente, uma vaga interessante, ou apenas quer trocar uma ideia, não hesite em me contatar!</p>
+                <a href="mailto:email@exemplo.com" class="mt-8 inline-block bg-brand-pink text-white font-bold py-4 px-10 rounded-lg hover:scale-105 hover:shadow-glow-pink transition-all duration-300">
+                    Mande um E-mail
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-brand-cyan/10 mt-20 relative z-10">
+        <div class="container mx-auto px-6 py-6 text-center text-gray-500">
+            <p>&copy; <span id="current-year"></span> Ludmila. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Botão de Voltar ao Topo -->
+    <button id="to-top-button" class="hidden fixed bottom-5 right-5 bg-brand-pink p-3 rounded-full text-white shadow-lg hover:bg-brand-cyan transition-all duration-300 z-50">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>
+    </button>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Lógica do Menu Mobile ---
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const openIcon = document.getElementById('menu-icon-open');
+            const closeIcon = document.getElementById('menu-icon-close');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                openIcon.classList.toggle('hidden');
+                closeIcon.classList.toggle('hidden');
+            });
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                    openIcon.classList.remove('hidden');
+                    closeIcon.classList.add('hidden');
+                });
+            });
+
+            // --- Animação de digitação ---
+            new Typed('#typed-text', {
+                strings: ['Desenvolvedora Front-End', 'UI/UX Enthusiast', 'Criadora de Soluções Digitais'],
+                typeSpeed: 50, backSpeed: 25, backDelay: 1500, loop: true, smartBackspace: true
+            });
+
+            // --- Lógica do Botão Voltar ao Topo ---
+            const toTopButton = document.getElementById('to-top-button');
+            window.addEventListener('scroll', () => {
+                toTopButton.classList.toggle('hidden', window.pageYOffset <= 300);
+            });
+            toTopButton.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+            
+            // --- Ano atual no footer ---
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+
+            // --- Animação de fade-in ao rolar ---
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('section').forEach(section => {
+                section.style.opacity = 0;
+                section.style.transform = 'translateY(20px)';
+                section.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+                observer.observe(section);
+            });
+            
+            // --- Animação de Partículas no Canvas ---
+            const canvas = document.getElementById('particle-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            let particlesArray;
+
+            const mouse = { x: null, y: null, radius: (canvas.height/120) * (canvas.width/120) };
+
+            window.addEventListener('mousemove', (event) => {
+                mouse.x = event.x;
+                mouse.y = event.y;
+            });
+            
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                mouse.radius = (canvas.height/120) * (canvas.width/120);
+                init();
+            });
+            
+            window.addEventListener('mouseout', () => {
+                mouse.x = undefined;
+                mouse.y = undefined;
+            });
+
+            class Particle {
+                constructor(x, y, directionX, directionY, size, color) {
+                    this.x = x; this.y = y; this.directionX = directionX; this.directionY = directionY;
+                    this.size = size; this.color = color;
+                }
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+                    ctx.fillStyle = this.color;
+                    ctx.fill();
+                }
+                update() {
+                    if (this.x > canvas.width || this.x < 0) this.directionX = -this.directionX;
+                    if (this.y > canvas.height || this.y < 0) this.directionY = -this.directionY;
+                    this.x += this.directionX;
+                    this.y += this.directionY;
+                    this.draw();
+                }
+            }
+
+            function init() {
+                particlesArray = [];
+                let numberOfParticles = (canvas.height * canvas.width) / 9000;
+                for (let i = 0; i < numberOfParticles; i++) {
+                    let size = (Math.random() * 2) + 1;
+                    let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
+                    let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
+                    let directionX = (Math.random() * .4) - .2;
+                    let directionY = (Math.random() * .4) - .2;
+                    let color = Math.random() > 0.3 ? '#ff00c1' : '#00f2ea';
+                    particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
+                }
+            }
+
+            function connect() {
+                let opacityValue = 1;
+                for (let a = 0; a < particlesArray.length; a++) {
+                    for (let b = a; b < particlesArray.length; b++) {
+                        let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x)) + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
+                        if (distance < (canvas.width/7) * (canvas.height/7)) {
+                            opacityValue = 1 - (distance/20000);
+                            let dx = mouse.x - particlesArray[a].x;
+                            let dy = mouse.y - particlesArray[a].y;
+                            let mouseDistance = Math.sqrt(dx*dx+dy*dy);
+                            if (mouseDistance < mouse.radius) {
+                                ctx.strokeStyle = `rgba(255, 0, 193, ${opacityValue})`;
+                            } else {
+                                ctx.strokeStyle = `rgba(0, 242, 234, ${opacityValue/3})`;
+                            }
+                            ctx.lineWidth = 1;
+                            ctx.beginPath();
+                            ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                            ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+
+            function animate() {
+                requestAnimationFrame(animate);
+                ctx.clearRect(0, 0, innerWidth, innerHeight);
+                for (let i = 0; i < particlesArray.length; i++) {
+                    particlesArray[i].update();
+                }
+                connect();
+            }
+
+            init();
+            animate();
+        });
+    </script>
+</body>
+</html>
+
